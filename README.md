@@ -14,6 +14,8 @@ This application is built with Vue.js v2. Just a little brief of my skills for y
 
 ## To interact:
 
+Hosted on GitHub pages! Just browse to https://carobottino.github.io/food_app/
+
 - there's a file in /src/assets/json/items.json with demo info about items for you to create new ones, edit and delete items 😁
 - you can register your own user. You'll be buyer by default. You can change yourself to admin.
 - Ej user admin: caro@mail.com, caro1234
