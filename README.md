@@ -1,6 +1,4 @@
-# food_app
-
-## Food application
+# 🍣🍦🧁 Food application 🍔🍟🍕
 
 This application is built with Vue.js v2. Just a little brief of my skills for you to know me better.
 
