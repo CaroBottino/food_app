@@ -1,28 +1,45 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <NavbarComponent />
+
+    <router-view />
+
+    <CarritoComponent
+      :items="storeState.user.cart"
+      @updateStock="updateStock"
+      @deleteFromCart="onDeleteFromCart"
+    />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavbarComponent from "./components/NavbarComponent.vue";
+import CarritoComponent from "./components/CarritoComponent.vue";
+import FooterComponent from "./components/FooterComponent.vue";
+import store from "./store";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    NavbarComponent,
+    CarritoComponent,
+    FooterComponent,
+  },
+  data() {
+    return {
+      storeState: store.state,
+    };
+  },
+  methods: {
+    onDeleteFromCart(itemId) {
+      store.deleteItemFromCart(itemId);
+    },
+    updateStock(i) {
+      return i;
+    },
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
