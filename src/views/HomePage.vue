@@ -23,7 +23,6 @@
 <script>
 import ListadoComponent from "@/components/ListadoComponent.vue";
 import MockapiController from "@/controllers/MockapiController";
-import store from "@/store";
 
 export default {
   name: "HomePage",
@@ -34,7 +33,7 @@ export default {
     return {
       loading: true,
       listado: [],
-      storeState: store.state,
+      storeState: this.$store.state,
     };
   },
   created() {
@@ -50,21 +49,7 @@ export default {
         .catch((err) => console.log("error getItems: ", err));
     },
     onAddToCart(item) {
-      store.addItemToCart(item);
-    },
-    updateStock(i) {
-      this.listado.forEach((item) => {
-        if (item.id === i.id) {
-          console.log(`stock: ${item.stock}, q: ${i.q}`);
-          item.stock = item.stock - i.q;
-        }
-      });
-
-      // this.itemsCarrito.forEach((item) => {
-      //   if (item.name === i.name) {
-      //     item.q++;
-      //   }
-      // });
+      this.$store.dispatch("addItemToCart", item);
     },
   },
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.VUE_APP_MOCKAPI_URL;
+const BASE_URL = "https://649b334abf7c145d023a2086.mockapi.io/v1";
 
 export default {
     getItems() {

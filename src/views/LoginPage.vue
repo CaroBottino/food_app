@@ -15,7 +15,6 @@
 <script>
 import LoginComponent from "@/components/LoginComponent.vue";
 import MockapiController from "@/controllers/MockapiController";
-import store from "@/store";
 
 export default {
   name: "LoginPage",
@@ -38,7 +37,7 @@ export default {
         });
 
         if (found) {
-          store.loggingUser(found);
+          this.$store.dispatch("loggingUser", found);
           this.$router.push({ name: "user" });
         } else {
           this.errors.push(
@@ -77,7 +76,7 @@ export default {
 
       MockapiController.createUser(newUser)
         .then((res) => {
-          store.loggingUser(res.data);
+          this.$store.dispatch("loggingUser", res.data);
           this.$router.push({ name: "user" });
         })
         .catch((err) => {

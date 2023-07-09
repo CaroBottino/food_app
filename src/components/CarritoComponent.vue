@@ -1,12 +1,12 @@
 <template>
   <div>
     <b-sidebar id="sidebar-cart" title="Carrito" right shadow>
-      <div v-if="quantity == 0" class="px-3 py-2">
+      <div v-if="getCartItemsQ == 0" class="px-3 py-2">
         <p>No hay items en su carrito</p>
       </div>
       <div v-else>
         <b-card
-          v-for="(item, i) in items"
+          v-for="(item, i) in getUserCart"
           :key="i"
           no-body
           class="overflow-hidden"
@@ -37,7 +37,7 @@
       <template #footer>
         <div class="d-flex bg-dark text-light align-items-center px-3 py-2">
           <strong class="mr-auto">Total: </strong>
-          {{ totalPrice | toPrice }}
+          {{ getCartPrice | toPrice }}
 
           <b-button @click="buy" id="buy-btn">Pagar</b-button>
         </div>
@@ -47,44 +47,30 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FiltersComponent from "./FiltersComponent.vue";
 
 export default {
   name: "CarritoComponent",
   components: {},
-  props: {
-    items: {
-      Array,
-      required: true,
-    },
-  },
   mixins: [FiltersComponent],
+  data() {
+    return {
+      loading: true,
+    };
+  },
   computed: {
-    quantity() {
-      return this.$props.items.length;
-    },
-    totalPrice() {
-      let price = 0;
-
-      this.$props.items.forEach((item) => {
-        price = price + item.price * item.q;
-      });
-
-      return price;
-    },
+    ...mapGetters(["getUserCart", "getCartItemsQ", "getCartPrice"]),
   },
   methods: {
     add(item) {
-      item.q++;
-      // let aux = item;
-      // aux.q = 1;
-      // this.$emit("updateStock", aux);
+      this.$store.dispatch("updateItemAdd", item);
     },
     subtract(item) {
-      item.q == 0 ? (item.q = 0) : item.q--;
+      this.$store.dispatch("updateItemSubs", item);
     },
     deleteItem(item) {
-      this.$emit("deleteFromCart", item.id);
+      this.$store.dispatch("deleteItemFromCart", item.id);
     },
     buy() {
       console.log("iniciar compra...");

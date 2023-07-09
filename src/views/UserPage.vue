@@ -113,13 +113,12 @@
 <script>
 import MockapiController from "@/controllers/MockapiController";
 import TableComponent from "@/components/TableComponent.vue";
-import store from "@/store";
 
 export default {
   name: "UserPage",
   data() {
     return {
-      user: store.state.user,
+      user: this.$store.state.user,
       edit: false,
       roles: ["admin", "buyer"],
       items: [],
@@ -150,7 +149,7 @@ export default {
     editUser() {
       MockapiController.updateUser(this.user.id, this.user)
         .then((res) => {
-          store.editUserInfo(res.data);
+          this.$store.dispatch("editUserInfo", res.data);
           this.edit = false;
         })
         .catch((err) => {
@@ -186,7 +185,7 @@ export default {
         .catch((err) => alert("error when deleting item: ", err));
     },
     onDeleteItemFromCart(itemId) {
-      store.deleteItemFromCart(itemId);
+      this.$store.dispatch("deleteItemFromCart", itemId);
     },
   },
 };
