@@ -86,7 +86,7 @@
 
       <TableComponent
         :headers="headersAdmin"
-        :items="items"
+        :items="itemsByUser"
         :actions="actionsAdmin"
         @editItem="onEditItem"
         @deleteItem="onDeleteItem"
@@ -95,10 +95,10 @@
     <div v-else class="features-pannel">
       <h3>Tu carrito de compras</h3>
 
-      <div v-if="user.cart.length > 0">
+      <div v-if="getUserCart.length > 0">
         <TableComponent
           :headers="headersBuyer"
-          :items="user.cart"
+          :items="getUserCart"
           :actions="actionsBuyer"
           @deleteItem="onDeleteItemFromCart"
         />
@@ -111,8 +111,8 @@
 </template>
 
 <script>
-import MockapiController from "@/controllers/MockapiController";
 import TableComponent from "@/components/TableComponent.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UserPage",
@@ -121,7 +121,6 @@ export default {
       user: this.$store.state.user,
       edit: false,
       roles: ["admin", "buyer"],
-      items: [],
       headersAdmin: ["id", "name", "img", "price", "desc", "stock"],
       actionsAdmin: ["edit", "delete"],
       headersBuyer: ["id", "name", "img", "price", "q"],
@@ -136,38 +135,28 @@ export default {
       },
     };
   },
+  computed: {
+    itemsByUser() {
+      return this.$store.getters["items/getItemsByUser"](this.user.id);
+    },
+    ...mapGetters(["getUserCart"]),
+  },
   components: {
     TableComponent,
-  },
-  created() {
-    this.getItemsByUser();
   },
   methods: {
     showEditMode() {
       this.edit = true;
     },
     editUser() {
-      MockapiController.updateUser(this.user.id, this.user)
-        .then((res) => {
-          this.$store.dispatch("editUserInfo", res.data);
+      this.$store
+        .dispatch("editUserInfo", this.user)
+        .then(() => {
+          alert("User info edited");
           this.edit = false;
         })
         .catch((err) => {
           alert("error editando user: ", err);
-        });
-    },
-    getItemsByUser() {
-      /*
-        traigo todos los items para que se vea mas cantidad jeje 
-        pero algo copado seria filtrar solo los items del user conectado, 
-        y eso se haria con el campo user del item
-      */
-      MockapiController.getItems()
-        .then((res) => {
-          this.items = res.data;
-        })
-        .catch((err) => {
-          alert("error getItems: ", err);
         });
     },
     createItem() {
@@ -177,15 +166,19 @@ export default {
       this.$router.push({ name: "edit-item", params: { id: edit } });
     },
     onDeleteItem(id) {
-      MockapiController.deleteItem(id)
+      this.$store
+        .dispatch("items/deleteItem", id)
         .then(() => {
           alert("item deleted");
-          this.getItemsByUser();
+          this.$store.dispatch("items/getItems");
         })
         .catch((err) => alert("error when deleting item: ", err));
     },
     onDeleteItemFromCart(itemId) {
-      this.$store.dispatch("deleteItemFromCart", itemId);
+      this.$store
+        .dispatch("deleteItemFromCart", itemId)
+        .then(this.$store.dispatch("editUserInfo", this.$store.state.user))
+        .catch((err) => alert("error deleting item from cart: ", err));
     },
   },
 };
@@ -193,7 +186,7 @@ export default {
 
 <style scoped>
 .body {
-  margin-top: 70px;
+  margin-top: 80px;
   margin-bottom: 70px;
   color: whitesmoke;
   align-content: center;

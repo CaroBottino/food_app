@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="body">
     <div v-if="loading" class="spinner">
       <div class="spinner-border text-danger" role="status" id="spinner">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
     <div v-else>
-      <div v-if="listado.length > 0">
+      <div v-if="getItems.length > 0">
         <ListadoComponent
-          :items="listado"
+          :items="getItems"
           :itemsCart="storeState.user.cart"
           @addToCart="onAddToCart"
         />
@@ -22,7 +22,7 @@
 
 <script>
 import ListadoComponent from "@/components/ListadoComponent.vue";
-import MockapiController from "@/controllers/MockapiController";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomePage",
@@ -32,22 +32,19 @@ export default {
   data() {
     return {
       loading: true,
-      listado: [],
       storeState: this.$store.state,
     };
   },
+  computed: {
+    ...mapGetters("items", ["getItems"]),
+  },
   created() {
-    this.getItems();
+    this.$store
+      .dispatch("items/getItems")
+      .then((this.loading = false))
+      .catch((err) => console.log("error getting items: ", err));
   },
   methods: {
-    getItems() {
-      MockapiController.getItems()
-        .then((res) => {
-          this.listado = res.data;
-          this.loading = false;
-        })
-        .catch((err) => console.log("error getItems: ", err));
-    },
     onAddToCart(item) {
       this.$store.dispatch("addItemToCart", item);
     },
@@ -56,6 +53,9 @@ export default {
 </script>
 
 <style scoped>
+.body {
+  margin-top: 80px;
+}
 .spinner {
   min-height: 600px;
 }

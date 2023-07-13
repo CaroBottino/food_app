@@ -12,7 +12,7 @@ export default {
 
 <style scoped>
 .body {
-  margin-top: 70px;
+  margin-top: 80px;
   margin-bottom: 70px;
   color: whitesmoke;
   align-content: center;

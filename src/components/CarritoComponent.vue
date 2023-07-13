@@ -64,13 +64,19 @@ export default {
   },
   methods: {
     add(item) {
-      this.$store.dispatch("updateItemAdd", item);
+      this.$store
+        .dispatch("updateItemAdd", item)
+        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
     },
     subtract(item) {
-      this.$store.dispatch("updateItemSubs", item);
+      this.$store
+        .dispatch("updateItemSubs", item)
+        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
     },
     deleteItem(item) {
-      this.$store.dispatch("deleteItemFromCart", item.id);
+      this.$store
+        .dispatch("deleteItemFromCart", item.id)
+        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
     },
     buy() {
       console.log("iniciar compra...");

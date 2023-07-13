@@ -171,7 +171,7 @@ export default {
 <style scoped>
 form {
   color: antiquewhite;
-  margin-top: 70px;
+  margin-top: 80px;
   margin-bottom: 70px;
 }
 

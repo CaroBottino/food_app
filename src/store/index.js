@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import MockapiController from "@/controllers/MockapiController";
+import { itemsModule } from "./modules/items";
 
 Vue.use(Vuex);
 
@@ -16,6 +18,9 @@ export default new Vuex.Store({
     logged: false,
   },
   getters: {
+    getUser: (state) => {
+      return state.user;
+    },
     getItemFromCart: (state) => (id) => {
       return state.user.cart.filter((item) => id === item.id);
     },
@@ -33,6 +38,9 @@ export default new Vuex.Store({
       });
 
       return price;
+    },
+    getUserItems: (state) => {
+      return state.items;
     },
   },
   mutations: {
@@ -66,6 +74,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    createUser: (context, payload) => {
+      MockapiController.createUser(payload).then((res) => {
+        context.commit("setUser", res.data);
+        context.commit("setLogged", true);
+      });
+    },
     loggingUser: (context, payload) => {
       context.commit("setUser", payload);
       context.commit("setLogged", true);
@@ -84,7 +98,9 @@ export default new Vuex.Store({
       context.commit("setLogged", false);
     },
     editUserInfo: (context, payload) => {
-      context.commit("setUser", payload);
+      MockapiController.updateUser(payload.id, payload).then((res) => {
+        context.commit("setUser", res.data);
+      });
     },
     addItemToCart: (context, payload) => {
       if (context.getters.getItemFromCart(payload.id).length !== 0) {
@@ -103,5 +119,7 @@ export default new Vuex.Store({
       context.commit("updateItemSubs", item);
     },
   },
-  modules: {},
+  modules: {
+    items: itemsModule,
+  },
 });

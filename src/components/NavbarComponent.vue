@@ -28,23 +28,33 @@
             </b-nav-form>
             -->
 
-            <router-link v-if="storeState.logged" :to="{ name: 'user' }">
-              <img :src="storeState.user.avatar" class="avatar" />
-            </router-link>
-            <router-link v-else :to="{ name: 'login' }">
-              <b-button class="nav-btn">
-                <b-icon icon="person-circle" class="nav-icon"></b-icon>
-              </b-button>
-            </router-link>
+            <b-nav-item-dropdown no-caret right v-if="storeState.logged">
+              <template #button-content>
+                <img :src="storeState.user.avatar" class="avatar" />
+              </template>
+              <b-dropdown-item>
+                <router-link :to="{ name: 'user' }"> Profile </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item right v-else>
+              <router-link :to="{ name: 'login' }">
+                <b-button class="nav-btn">
+                  <b-icon icon="person-circle" class="nav-icon"></b-icon>
+                </b-button>
+              </router-link>
+            </b-nav-item>
 
-            <b-button v-b-toggle.sidebar-cart class="nav-btn">
-              <b-icon icon="cart" class="nav-icon"></b-icon>
-              <div v-if="storeState.user.cart.length > 0" class="cart-dot">
-                <p class="cart-total">
-                  {{ storeState.user.cart.length }}
-                </p>
-              </div>
-            </b-button>
+            <b-nav-item right>
+              <b-button v-b-toggle.sidebar-cart class="nav-btn">
+                <b-icon icon="cart" class="nav-icon"></b-icon>
+                <div v-if="storeState.user.cart.length > 0" class="cart-dot">
+                  <p class="cart-total">
+                    {{ storeState.user.cart.length }}
+                  </p>
+                </div>
+              </b-button>
+            </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </div>
@@ -59,6 +69,12 @@ export default {
     return {
       storeState: this.$store.state,
     };
+  },
+  methods: {
+    signOut() {
+      this.$store.dispatch("logoutUser");
+      this.$router.push({ name: "home" });
+    },
   },
 };
 </script>
@@ -110,7 +126,7 @@ button {
   border-radius: 50%;
   z-index: 3;
   position: absolute;
-  bottom: 1.8rem;
+  bottom: 2.5rem;
   right: 0.4rem;
 }
 
@@ -122,11 +138,8 @@ button {
 }
 
 .avatar {
-  width: 50px;
+  width: 55px;
   border-radius: 50%;
   border-style: none;
-  position: absolute;
-  bottom: 0.5rem;
-  right: 4.5rem;
 }
 </style>
