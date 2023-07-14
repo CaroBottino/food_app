@@ -60,23 +60,34 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUserCart", "getCartItemsQ", "getCartPrice"]),
+    ...mapGetters([
+      "getUserCart",
+      "getCartItemsQ",
+      "getCartPrice",
+      "getLogged",
+    ]),
   },
   methods: {
     add(item) {
-      this.$store
-        .dispatch("updateItemAdd", item)
-        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
+      this.$store.dispatch("updateItemAdd", item).then(() => {
+        if (this.getLogged) {
+          this.$store.dispatch("editUserInfo", this.$store.state.user);
+        }
+      });
     },
     subtract(item) {
-      this.$store
-        .dispatch("updateItemSubs", item)
-        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
+      this.$store.dispatch("updateItemSubs", item).then(() => {
+        if (this.getLogged) {
+          this.$store.dispatch("editUserInfo", this.$store.state.user);
+        }
+      });
     },
     deleteItem(item) {
-      this.$store
-        .dispatch("deleteItemFromCart", item.id)
-        .then(this.$store.dispatch("editUserInfo", this.$store.state.user));
+      this.$store.dispatch("deleteItemFromCart", item.id).then(() => {
+        if (this.getLogged) {
+          this.$store.dispatch("editUserInfo", this.$store.state.user);
+        }
+      });
     },
     buy() {
       console.log("iniciar compra...");

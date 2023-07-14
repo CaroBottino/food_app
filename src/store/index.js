@@ -21,6 +21,9 @@ export default new Vuex.Store({
     getUser: (state) => {
       return state.user;
     },
+    getLogged: (state) => {
+      return state.logged;
+    },
     getItemFromCart: (state) => (id) => {
       return state.user.cart.filter((item) => id === item.id);
     },
@@ -81,8 +84,10 @@ export default new Vuex.Store({
       });
     },
     loggingUser: (context, payload) => {
-      context.commit("setUser", payload);
-      context.commit("setLogged", true);
+      MockapiController.updateUser(payload.id, payload).then((res) => {
+        context.commit("setUser", res.data);
+        context.commit("setLogged", true);
+      });
     },
     logoutUser: (context) => {
       const emptyUser = {

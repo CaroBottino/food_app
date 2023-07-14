@@ -5,11 +5,15 @@
       <div class="card">
         <div class="row g-0">
           <div class="col-md-4">
-            <img :src="user.avatar" class="img-fluid rounded-start" alt="..." />
+            <img
+              :src="getUser.avatar"
+              class="img-fluid rounded-start"
+              alt="..."
+            />
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">{{ user.fullname }}</h5>
+              <h5 class="card-title">{{ getUser.fullname }}</h5>
               <div v-if="edit">
                 <div>
                   <label for="fullname">Fullname</label>
@@ -60,9 +64,9 @@
                 </b-button>
               </div>
               <div v-else>
-                <p class="card-text">email: {{ user.email }}</p>
-                <p class="card-text">Password: {{ user.pass }}</p>
-                <p class="card-text">role: {{ user.role }}</p>
+                <p class="card-text">email: {{ getUser.email }}</p>
+                <p class="card-text">Password: {{ getUser.pass }}</p>
+                <p class="card-text">role: {{ getUser.role }}</p>
 
                 <b-button v-on:click="showEditMode()">
                   <b-icon icon="pencil" class="nav-icon"></b-icon>
@@ -74,7 +78,7 @@
       </div>
     </div>
 
-    <div v-if="user.role === 'admin'" class="features-pannel">
+    <div v-if="getUser.role === 'admin'" class="features-pannel">
       <h3>Tus items en venta</h3>
 
       <div class="new-item">
@@ -118,7 +122,14 @@ export default {
   name: "UserPage",
   data() {
     return {
-      user: this.$store.state.user,
+      user: {
+        fullname: "",
+        pass: "",
+        role: "",
+        email: "",
+        id: "",
+        cart: [],
+      },
       edit: false,
       roles: ["admin", "buyer"],
       headersAdmin: ["id", "name", "img", "price", "desc", "stock"],
@@ -137,15 +148,16 @@ export default {
   },
   computed: {
     itemsByUser() {
-      return this.$store.getters["items/getItemsByUser"](this.user.id);
+      return this.$store.getters["items/getItemsByUser"](this.getUser.id);
     },
-    ...mapGetters(["getUserCart"]),
+    ...mapGetters(["getUser", "getUserCart"]),
   },
   components: {
     TableComponent,
   },
   methods: {
     showEditMode() {
+      this.user = this.getUser;
       this.edit = true;
     },
     editUser() {

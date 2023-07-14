@@ -37,6 +37,18 @@ export default {
         });
 
         if (found) {
+          this.$store.getters["getUserCart"].forEach((item) => {
+            if (found.cart.find((i) => i.id == item.id)) {
+              found.cart.forEach((j) => {
+                if (j.id == item.id) {
+                  j.q = j.q + item.q;
+                }
+              });
+            } else {
+              found.cart.push(item);
+            }
+          });
+
           this.$store.dispatch("loggingUser", found);
           this.$router.push({ name: "user" });
         } else {
@@ -72,6 +84,7 @@ export default {
         pass: form.pass,
         email: form.email,
         role: "buyer",
+        cart: this.$store.getters["getUserCart"],
       };
 
       this.$store
