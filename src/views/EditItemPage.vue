@@ -146,7 +146,9 @@ export default {
     };
   },
   created() {
-    this.item = this.$store.getters["items/getItemById"](this.itemId);
+    if (this.itemId) {
+      this.item = this.$store.getters["items/getItemById"](this.itemId);
+    }
   },
   methods: {
     editItem() {
