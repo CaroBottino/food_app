@@ -15,6 +15,7 @@
 <script>
 import LoginComponent from "@/components/LoginComponent.vue";
 import MockapiController from "@/controllers/MockapiController";
+import User from "@/models/User";
 
 export default {
   name: "LoginPage",
@@ -79,13 +80,13 @@ export default {
       });
     },
     saveNewUser(form) {
-      let newUser = {
+      let newUser = new User({
         fullname: form.fullname,
         pass: form.pass,
         email: form.email,
         role: "buyer",
         cart: this.$store.getters["getUserCart"],
-      };
+      });
 
       this.$store
         .dispatch("createUser", newUser)

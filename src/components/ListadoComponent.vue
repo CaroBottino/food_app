@@ -32,6 +32,8 @@
 <script>
 import InfoComponent from "./InfoComponent.vue";
 import FiltersComponent from "./FiltersComponent.vue";
+import CartItem from "@/models/CartItem";
+import Item from "@/models/Item";
 
 export default {
   name: "ListadoComponent",
@@ -56,24 +58,18 @@ export default {
   // },
   data() {
     return {
-      item: {
-        id: "",
-        name: "",
-        img: "",
-        price: 0,
-        desc: "",
-      },
+      item: new Item(),
     };
   },
   methods: {
     addToCart(item) {
-      let cartItem = {
+      let cartItem = new CartItem({
         id: item.id,
         name: item.name,
         img: item.img,
         price: item.price,
         q: item.q ? item.q : 1,
-      };
+      });
 
       this.$emit("addToCart", cartItem);
     },

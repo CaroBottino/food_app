@@ -34,8 +34,6 @@ export const itemsModule = {
       MockapiController.updateItem(payload.id, payload);
     },
     deleteItem: (context, payload) => {
-      // console.log("context: ", context);
-      // console.log("p: ", payload);
       MockapiController.deleteItem(payload);
     },
   },

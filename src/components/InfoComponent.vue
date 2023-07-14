@@ -34,6 +34,7 @@
 
 <script>
 import FiltersComponent from "./FiltersComponent.vue";
+import CartItem from "@/models/CartItem";
 
 export default {
   name: "InfoComponent",
@@ -51,13 +52,13 @@ export default {
   },
   methods: {
     addToCart() {
-      let cartItem = {
+      let cartItem = new CartItem({
         id: this.item.id,
         name: this.item.name,
         img: this.item.img,
         price: this.item.price,
         q: this.quantity,
-      };
+      });
 
       this.$emit("addToCart", cartItem);
       this.$bvModal.hide("modal-info");

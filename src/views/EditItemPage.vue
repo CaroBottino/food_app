@@ -128,26 +128,22 @@
 </template>
 
 <script>
+import Item from "@/models/Item";
+
 export default {
   name: "EditItemPage",
   data() {
     return {
       storeState: this.$store.state,
       itemId: this.$route.params.id,
-      item: {
-        id: "",
-        name: "",
-        img: "",
-        price: 0,
-        desc: "",
-        stock: 0,
-        user: this.$store.state.user.id,
-      },
+      item: new Item(),
     };
   },
   created() {
     if (this.itemId) {
       this.item = this.$store.getters["items/getItemById"](this.itemId);
+    } else {
+      this.item.setUserId(this.$store.state.user.id);
     }
   },
   methods: {

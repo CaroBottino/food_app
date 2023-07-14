@@ -1,20 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import MockapiController from "@/controllers/MockapiController";
+import User from "@/models/User";
 import { itemsModule } from "./modules/items";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: {
-      fullname: "",
-      pass: "",
-      role: "",
-      email: "",
-      id: "",
-      cart: [],
-    },
+    user: new User(),
     logged: false,
   },
   getters: {

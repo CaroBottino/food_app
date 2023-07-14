@@ -117,33 +117,19 @@
 <script>
 import TableComponent from "@/components/TableComponent.vue";
 import { mapGetters } from "vuex";
+import User from "@/models/User";
 
 export default {
   name: "UserPage",
   data() {
     return {
-      user: {
-        fullname: "",
-        pass: "",
-        role: "",
-        email: "",
-        id: "",
-        cart: [],
-      },
+      user: new User(),
       edit: false,
       roles: ["admin", "buyer"],
       headersAdmin: ["id", "name", "img", "price", "desc", "stock"],
       actionsAdmin: ["edit", "delete"],
       headersBuyer: ["id", "name", "img", "price", "q"],
       actionsBuyer: ["delete"],
-      editItem: {
-        id: "",
-        name: "",
-        img: "",
-        price: 0,
-        desc: "",
-        stock: 0,
-      },
     };
   },
   computed: {
@@ -157,7 +143,7 @@ export default {
   },
   methods: {
     showEditMode() {
-      this.user = this.getUser;
+      this.user = { ...this.getUser };
       this.edit = true;
     },
     editUser() {
