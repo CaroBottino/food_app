@@ -39,6 +39,9 @@ export default new Vuex.Store({
     getUserItems: (state) => {
       return state.items;
     },
+    getUserOrders: (state) => {
+      return state.user.orders;
+    },
   },
   mutations: {
     setUser: (state, form) => {
@@ -68,6 +71,13 @@ export default new Vuex.Store({
       state.user.cart = state.user.cart.filter((item) => {
         return item.id !== itemId;
       });
+    },
+    registerOrder: (state, order) => {
+      order.id = new Date().toString();
+      state.user.orders.push(order);
+    },
+    emptyCart: (state) => {
+      state.user.cart = [];
     },
   },
   actions: {
@@ -116,6 +126,10 @@ export default new Vuex.Store({
     },
     updateItemSubs: (context, item) => {
       context.commit("updateItemSubs", item);
+    },
+    createOrder: (context, payload) => {
+      context.commit("registerOrder", payload);
+      context.commit("emptyCart");
     },
   },
   modules: {

@@ -6,6 +6,7 @@ class User {
     role = "",
     email = "",
     cart = [],
+    orders = [],
   } = {}) {
     this.id = id;
     this.fullname = fullname;
@@ -13,6 +14,7 @@ class User {
     this.role = role;
     this.email = email;
     this.cart = cart;
+    this.orders = orders;
   }
 }
 

@@ -98,6 +98,7 @@ export default {
     },
     buy() {
       console.log("iniciar compra...");
+      this.$router.push({ name: "order" });
     },
     login() {
       this.$router.push({ name: "login" });

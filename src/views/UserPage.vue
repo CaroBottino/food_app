@@ -110,6 +110,19 @@
       <div v-else>
         <h6>No agregaste items a tu carrito aún</h6>
       </div>
+
+      <h3>Tus órdenes</h3>
+
+      <div v-if="getUserOrders.length > 0">
+        <TableComponent
+          :headers="headersOrders"
+          :items="getUserOrders"
+          :actions="actionsOrders"
+        />
+      </div>
+      <div v-else>
+        <h6>No tenés órdenes aún</h6>
+      </div>
     </div>
   </div>
 </template>
@@ -130,13 +143,15 @@ export default {
       actionsAdmin: ["edit", "delete"],
       headersBuyer: ["id", "name", "img", "price", "q"],
       actionsBuyer: ["delete"],
+      headersOrders: ["id", "items", "finalPrice", "address", "notes"],
+      actionsOrders: [],
     };
   },
   computed: {
     itemsByUser() {
       return this.$store.getters["items/getItemsByUser"](this.getUser.id);
     },
-    ...mapGetters(["getUser", "getUserCart"]),
+    ...mapGetters(["getUser", "getUserCart", "getUserOrders"]),
   },
   components: {
     TableComponent,
