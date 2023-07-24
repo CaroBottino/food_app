@@ -39,7 +39,14 @@
           <strong class="mr-auto">Total: </strong>
           {{ getCartPrice | toPrice }}
 
-          <b-button @click="buy" id="buy-btn">Pagar</b-button>
+          <div v-if="getLogged">
+            <b-button @click="buy" id="buy-btn" :disabled="getCartItemsQ == 0">
+              Pagar
+            </b-button>
+          </div>
+          <div v-else>
+            <b-button @click="login" id="buy-btn">Registrate ✨</b-button>
+          </div>
         </div>
       </template>
     </b-sidebar>
@@ -91,6 +98,9 @@ export default {
     },
     buy() {
       console.log("iniciar compra...");
+    },
+    login() {
+      this.$router.push({ name: "login" });
     },
   },
 };

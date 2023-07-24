@@ -1,6 +1,6 @@
 <template>
   <div>
-    <footer class="footer mt-auto py-3 bg-dark">
+    <footer class="footer mt-auto py-3 bg-dark fixed-bottom">
       <div class="container">
         <p class="footer-label">
           <a href="/#">Back to top</a>

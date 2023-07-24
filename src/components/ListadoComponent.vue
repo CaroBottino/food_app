@@ -69,6 +69,7 @@ export default {
         img: item.img,
         price: item.price,
         q: item.q ? item.q : 1,
+        stock: item.stock,
       });
 
       this.$emit("addToCart", cartItem);
@@ -143,6 +144,9 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+  left: 0;
   margin: 1rem;
+  display: flex;
+  justify-content: center;
 }
 </style>

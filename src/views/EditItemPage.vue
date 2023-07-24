@@ -150,13 +150,20 @@ export default {
     editItem() {
       this.$store
         .dispatch("items/updateItem", this.item)
-        .then(alert("item editado ok"))
+        .then(() => {
+          alert("item editado ok");
+          this.$router.push({ name: "user" });
+        })
         .catch((err) => alert("error updating item: ", err));
     },
     createItem() {
       this.$store
         .dispatch("items/createItem", this.item)
-        .then(alert("item creado ok"))
+        .then(() => {
+          alert("item creado ok");
+          this.$store.dispatch("items/getItems");
+          this.$router.push({ name: "user" });
+        })
         .catch((err) => alert("error creating item: ", err));
     },
   },
@@ -179,6 +186,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   color: black;
+  max-width: 60%;
 }
 
 img {

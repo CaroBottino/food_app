@@ -53,7 +53,7 @@ export default new Vuex.Store({
     updateItemAdd: (state, item) => {
       state.user.cart.forEach((i) => {
         if (i.id === item.id) {
-          i.q++;
+          i.q = i.q < i.stock ? i.q + 1 : i.q;
         }
       });
     },

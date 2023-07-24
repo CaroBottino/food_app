@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container fluid class="custom-body">
       <b-row>
         <div v-if="errors.length > 0" class="alert alert-danger" role="alert">
           <p>Ups! Algunos campos no son como esperamos...</p>
@@ -185,5 +185,9 @@ button {
 .alert {
   max-width: 70%;
   margin-left: 20%;
+}
+
+.custom-body {
+  min-height: 50rem;
 }
 </style>

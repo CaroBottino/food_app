@@ -200,6 +200,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   color: black;
+  max-width: 60%;
 }
 
 label {

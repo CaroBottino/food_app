@@ -58,6 +58,7 @@ export default {
         img: this.item.img,
         price: this.item.price,
         q: this.quantity,
+        stock: this.item.stock,
       });
 
       this.$emit("addToCart", cartItem);
