@@ -102,6 +102,9 @@ export default {
 <style scoped>
 .body {
   margin-top: 80px;
+  width: 100%;
+  height: 100%;
+  background-color: #222222;
 }
 
 .alert {

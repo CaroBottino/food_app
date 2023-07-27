@@ -177,6 +177,8 @@ export default {
   color: whitesmoke;
   align-content: center;
   background-color: #222222;
+  width: 100vw;
+  height: 100vh;
 }
 .edit-header {
   padding-top: 25px;

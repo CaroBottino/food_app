@@ -19,6 +19,13 @@
                 alt="..."
               />
             </template>
+            <template v-else-if="header === 'items'">
+              <ol>
+                <li v-for="(i, j) in item[header]" :key="j">
+                  {{ i.name }}: {{ i.q }} unidades
+                </li>
+              </ol>
+            </template>
             <template v-else>
               {{ item[header] }}
             </template>
@@ -79,6 +86,7 @@ export default {
   background-color: white;
   max-width: 90%;
   margin-left: 5%;
+  margin-bottom: 2rem;
 }
 
 img {

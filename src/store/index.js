@@ -72,6 +72,11 @@ export default new Vuex.Store({
         return item.id !== itemId;
       });
     },
+    deleteItemFromBought: (state, itemId) => {
+      state.user.orders = state.user.orders.filter((item) => {
+        return item.id !== itemId;
+      });
+    },
     registerOrder: (state, order) => {
       order.id = new Date().toString();
       state.user.orders.push(order);
@@ -130,6 +135,9 @@ export default new Vuex.Store({
     createOrder: (context, payload) => {
       context.commit("registerOrder", payload);
       context.commit("emptyCart");
+    },
+    deleteItemFromBought: (context, id) => {
+      context.commit("deleteItemFromBought", id);
     },
   },
   modules: {

@@ -55,6 +55,7 @@ export default {
 <style scoped>
 .body {
   margin-top: 80px;
+  margin-bottom: 70px;
 }
 .spinner {
   min-height: 600px;

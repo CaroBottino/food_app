@@ -118,12 +118,15 @@
           :headers="headersOrders"
           :items="getUserOrders"
           :actions="actionsOrders"
+          @deleteItem="onDeleteItemFromBought"
         />
       </div>
       <div v-else>
         <h6>No tenés órdenes aún</h6>
       </div>
     </div>
+
+    <div class="bottom"></div>
   </div>
 </template>
 
@@ -144,7 +147,7 @@ export default {
       headersBuyer: ["id", "name", "img", "price", "q"],
       actionsBuyer: ["delete"],
       headersOrders: ["id", "items", "finalPrice", "address", "notes"],
-      actionsOrders: [],
+      actionsOrders: ["delete"],
     };
   },
   computed: {
@@ -193,6 +196,12 @@ export default {
         .then(this.$store.dispatch("editUserInfo", this.$store.state.user))
         .catch((err) => alert("error deleting item from cart: ", err));
     },
+    onDeleteItemFromBought(itemId) {
+      this.$store
+        .dispatch("deleteItemFromBought", itemId)
+        .then(this.$store.dispatch("editUserInfo", this.$store.state.user))
+        .catch((err) => alert("error deleting item from bought: ", err));
+    },
   },
 };
 </script>
@@ -204,6 +213,8 @@ export default {
   color: whitesmoke;
   align-content: center;
   background-color: #222222;
+  width: 100%;
+  height: 100%;
 }
 
 .user-header {
@@ -228,11 +239,19 @@ img {
   padding: 1rem;
 }
 
+h3 {
+  margin-top: 3rem;
+}
+
 .features-pannel {
   margin-top: 2rem;
 }
 
 .new-item {
   padding-bottom: 1rem;
+}
+
+.bottom {
+  min-height: 3rem;
 }
 </style>
